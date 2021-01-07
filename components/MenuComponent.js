@@ -8,7 +8,9 @@ function Menu(props) {
 
     const renderMenuItem = ({item,index}) => {
         return(
-            <ListItem bottomDivider>
+            <ListItem bottomDivider
+            onPress = {()=> props.onPress(item.id)}
+            >
                 <Avatar source={require('../images/alberto.png')} /> 
                 <ListItem.Content>
                     <ListItem.Title>{item.name}</ListItem.Title>
@@ -20,7 +22,7 @@ function Menu(props) {
             </ListItem>
         )
     }
-    
+
     const keyExtractor = (item, index) => index.toString()
     return(
             <FlatList style={{flex: 1, backgroundColor:'red'}}

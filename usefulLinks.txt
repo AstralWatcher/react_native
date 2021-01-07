@@ -1,0 +1,2 @@
+How to make Slogans over Cards in RN https://stackoverflow.com/questions/59894919/how-to-overlay-text-on-card-image-in-react-native
+Align content in RN https://stackoverflow.com/questions/44337469/text-vertical-align-in-react-native-using-nativebase
