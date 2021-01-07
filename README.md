@@ -52,3 +52,14 @@ This project can be run from a web browser or the Expo client app. You may find 
 ## How it was made with "Create React Native":
 - yarn global add create-react-native-app (npm install -g create-react-native-app)
 - create-react-native-app conFusion
+
+## Libraries
+create-react-native
+react-native-elements
+react-navigation @5
+-- yarn add react-navigation
+-- yarn add @react-navigation/stack
+-- yarn add react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view
+-- expo install react-native-gesture-handler react-native-reanimated react-native-screens react-native-safe-area-context @react-native-community/masked-view
+-- yarn upgrade @react-navigation/native@latest
+expo

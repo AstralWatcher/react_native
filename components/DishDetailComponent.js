@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import { render } from 'react-dom';
 import { View, Text } from 'react-native';
-import { Avatar, Card } from 'react-native-elements';
+import { Card } from 'react-native-elements';
 
 // https://stackoverflow.com/questions/59894919/how-to-overlay-text-on-card-image-in-react-native
 
@@ -30,8 +31,18 @@ function RenderDish(props) {
     }
 
 }
-function DishDetail(props) {
-    return (<RenderDish dish={props.dish} />);
+class DishDetail extends Component {
+
+    constructor(props){
+        super(props);
+    }
+   
+    render(){
+        // const dishId = this.state.navigation.getParam('dishId','');
+        // let dish= this.state.dishes[+dishId];
+        return (<RenderDish dish={this.props.dish} /> );
+    }
+    
 }
 
 export default DishDetail;

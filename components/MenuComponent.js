@@ -4,35 +4,43 @@ import {Avatar, ListItem} from 'react-native-elements';
 
 // https://reactnativeelements.com/docs/listitem/
 
-function Menu(props) {
+class Menu extends Component {
 
-    const renderMenuItem = ({item,index}) => {
-        return(
-            <ListItem bottomDivider
-            onPress = {()=> props.onPress(item.id)}
-            >
-                <Avatar source={require('../images/alberto.png')} /> 
-                <ListItem.Content>
-                    <ListItem.Title>{item.name}</ListItem.Title>
-                    <ListItem.Subtitle>{item.category}, {item.image} </ListItem.Subtitle>
-                    <Text>{item.description}</Text>
-                    <ListItem.Chevron />
-                </ListItem.Content >
-                <ListItem.Chevron color="black" />
-            </ListItem>
-        )
+    constructor(props){
+        super(props);
     }
 
-    const keyExtractor = (item, index) => index.toString()
-    return(
-            <FlatList style={{flex: 1, backgroundColor:'red'}}
-                keyExtractor={keyExtractor}
-                data={props.dishes}
-                renderItem={renderMenuItem}
-                
-            />
-    );
-
+    render(){
+        const renderMenuItem = ({item,index}) => {
+            return(
+                <ListItem bottomDivider
+                onPress = {()=> this.props.onPress(item.id)}
+                >
+                    <Avatar source={require('../images/alberto.png')} /> 
+                    <ListItem.Content>
+                        <ListItem.Title>{item.name}</ListItem.Title>
+                        <ListItem.Subtitle>{item.category}, {item.image} </ListItem.Subtitle>
+                        <Text>{item.description}</Text>
+                        <ListItem.Chevron />
+                    </ListItem.Content >
+                    <ListItem.Chevron color="black" />
+                </ListItem>
+            )
+        }
+    
+        const keyExtractor = (item, index) => index.toString()
+        return(
+            <React.Fragment>
+                <FlatList style={{flex: 1, backgroundColor:'red'}}
+                    keyExtractor={keyExtractor}
+                    data={this.props.dishes}
+                    renderItem={renderMenuItem}
+                    
+                />
+                <Text>{this.props.selected || 'Nista'}  { /* TODO DELETE */}</Text>
+            </React.Fragment>
+        );
+    }
 }
 
 export default Menu;
