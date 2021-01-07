@@ -1,16 +1,24 @@
 import * as React from "react";
-import { View, Text } from "react-native";
+import Main from './components/MainComponent';
 
 export default function App() {
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Universal React with Expo</Text>
-    </View>
+      <Main />
   );
 }
+
+
+//Old
+//import {View, Text, StyleSheet } from 'react-native';
+
+//<View style={styles.container}>
+//   <Text>Universal React with Expo 23</Text>
+// </View>
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: "center",
+//     alignItems: "center",
+//   }
+// });

@@ -42,3 +42,13 @@ This project can be run from a web browser or the Expo client app. You may find 
 - Learn more about [Universal React](https://docs.expo.io/).
 - See what API and components are [available in the React runtimes](https://docs.expo.io/versions/latest/).
 - Find out more about developing apps and websites: [Guides](https://docs.expo.io/guides/).
+
+# React_native
+## Software used:
+- Command tool "Create React Native" app by Facebook (so that Xcode and Android studio is not required)
+- Yarn by Facebook (alternative to npm)
+- Expo client (Google Playstore and IOS) - for testing on phone
+
+## How it was made with "Create React Native":
+- yarn global add create-react-native-app (npm install -g create-react-native-app)
+- create-react-native-app conFusion
