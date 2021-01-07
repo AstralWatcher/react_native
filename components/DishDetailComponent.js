@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { View, Text } from 'react-native';
 import { Card } from 'react-native-elements';
+import {DISHES} from '../shared/dishes'
 
 // https://stackoverflow.com/questions/59894919/how-to-overlay-text-on-card-image-in-react-native
 
@@ -35,12 +36,18 @@ class DishDetail extends Component {
 
     constructor(props){
         super(props);
+        this.state = {
+            dishes: DISHES,
+        }
     }
    
     render(){
-        // const dishId = this.state.navigation.getParam('dishId','');
-        // let dish= this.state.dishes[+dishId];
-        return (<RenderDish dish={this.props.dish} /> );
+        const {dishId} = this.props.route.params;
+        let dishClicked= this.state.dishes[parseInt(dishId)];
+        // let check = JSON.stringify(dishClicked);
+        // const checkGot = JSON.stringify(this.props.route.params)
+        // return (<Text>{checkGot + 'where dishID=' + dishId +' and got obj' + check} Aca </Text>);
+        return (<RenderDish dish={dishClicked} /> ); 
     }
     
 }

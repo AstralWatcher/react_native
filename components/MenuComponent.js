@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {View, FlatList, Text } from 'react-native';
 import {Avatar, ListItem} from 'react-native-elements';
+import { DISHES } from '../shared/dishes';
 
 // https://reactnativeelements.com/docs/listitem/
 
@@ -8,13 +9,18 @@ class Menu extends Component {
 
     constructor(props){
         super(props);
+        this.state = {
+            dishes: DISHES
+        };
     }
 
     render(){
+        const navigation = this.props.navigation;
+
         const renderMenuItem = ({item,index}) => {
             return(
                 <ListItem bottomDivider
-                onPress = {()=> this.props.onPress(item.id)}
+                onPress = {()=> navigation.navigate('DishDetail',  { dishId: item.id }) }
                 >
                     <Avatar source={require('../images/alberto.png')} /> 
                     <ListItem.Content>
@@ -33,7 +39,7 @@ class Menu extends Component {
             <React.Fragment>
                 <FlatList style={{flex: 1, backgroundColor:'red'}}
                     keyExtractor={keyExtractor}
-                    data={this.props.dishes}
+                    data={this.state.dishes}
                     renderItem={renderMenuItem}
                     
                 />

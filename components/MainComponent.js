@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Menu from './MenuComponent';
-import { DISHES } from '../shared/dishes';
 import { Text, View } from 'react-native';
 import DishDetail from './DishDetailComponent';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -13,40 +12,30 @@ class Main extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dishes: DISHES,
             selectedDish: null
         }
     }
 
-    MainScreen = ({navigation}) => {
-        return(
-            <Menu
-             selected={this.state.selectedDish}
-             dishes={this.state.dishes}
-             onPress={(dishId) => {
-                this.onDishSelect(dishId);
-                navigation.navigate('DishDetails');
-             }}
-             />
-        );
-    }
 
-    DishScreen = ({navigation}) => {
-        return(
-            <DishDetail navigation={navigation} dish={this.state.dishes.filter((dish) => dish.id === this.state.selectedDish)[0]} />
+    HomeScreen = ({ route, navigation }) => {
+        return (
+         <Menu navigation={navigation}/>
         );
-    }
+      }
 
-    onDishSelect(dishId) {
-        this.setState({ selectedDish: dishId });
-    }
+    DishScreen = (navigationObject) => {
+    return (
+        <DishDetail {...navigationObject}/>
+    );
+    }; // Can also interchange with DishDetails if no other params are passed other to navigationObject
+
 
     render() {
         return (
            <NavigationContainer>
                 <Stack.Navigator>
-                    <Stack.Screen name="Home" component={this.MainScreen} />
-                    <Stack.Screen name="DishDetails" component={this.DishScreen} /> 
+                    <Stack.Screen name="Home" component={this.HomeScreen} />
+                    <Stack.Screen name="DishDetail" component={this.DishScreen} /> 
                 </Stack.Navigator>
             </NavigationContainer>
         );
