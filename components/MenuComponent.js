@@ -1,28 +1,28 @@
-import React, {Component} from 'react';
-import {View, FlatList, Text } from 'react-native';
-import {Avatar, ListItem} from 'react-native-elements';
+import React, { Component } from 'react';
+import { View, FlatList, Text } from 'react-native';
+import { Avatar, ListItem } from 'react-native-elements';
 import { DISHES } from '../shared/dishes';
 
 // https://reactnativeelements.com/docs/listitem/
 
 class Menu extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             dishes: DISHES
         };
     }
 
-    render(){
+    render() {
         const navigation = this.props.navigation;
 
-        const renderMenuItem = ({item,index}) => {
-            return(
+        const renderMenuItem = ({ item, index }) => {
+            return (
                 <ListItem bottomDivider
-                onPress = {()=> navigation.navigate('DishDetail',  { dishId: item.id }) }
+                    onPress={() => navigation.navigate('DishDetail', { dishId: item.id })}
                 >
-                    <Avatar source={require('../images/alberto.png')} /> 
+                    <Avatar source={require('../images/alberto.png')} />
                     <ListItem.Content>
                         <ListItem.Title>{item.name}</ListItem.Title>
                         <ListItem.Subtitle>{item.category}, {item.image} </ListItem.Subtitle>
@@ -33,15 +33,15 @@ class Menu extends Component {
                 </ListItem>
             )
         }
-    
+
         const keyExtractor = (item, index) => index.toString()
-        return(
+        return (
             <React.Fragment>
-                <FlatList style={{flex: 1, backgroundColor:'red'}}
+                <FlatList style={{ flex: 1, backgroundColor: 'red' }}
                     keyExtractor={keyExtractor}
                     data={this.state.dishes}
                     renderItem={renderMenuItem}
-                    
+
                 />
                 <Text>{this.props.selected || 'Nista'}  { /* TODO DELETE */}</Text>
             </React.Fragment>

@@ -8,6 +8,8 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Menu from './MenuComponent';
 import DishDetail from './DishDetailComponent';
 import Home from './HomeComponent';
+import ContactUs from './ContactUsComponent';
+import AboutUs from './AboutUsComponent';
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -21,9 +23,11 @@ const stackNavigatorOptions = {
  headerTitleStyle: { color: WHITE }
  }
 
- const menuOptions = {...stackNavigatorOptions,  title: 'Menurino'}
- const DishDetailsOptions = {...stackNavigatorOptions, title:"Dish Details"}
+ const menuOptions = {...stackNavigatorOptions,  title: 'Menu Stack'}
+ const DishDetailsOptions = {...stackNavigatorOptions, title:"Dish Details Stack"}
  const HomeOptions = {...stackNavigatorOptions, title:"Home Stack"}
+ const AboutUsOptions = {...stackNavigatorOptions, title:"About Stack"}
+ const ContactUsOptions = {...stackNavigatorOptions, title:"Contact Stack"}
 
 function DishStackScreen() {
     return (
@@ -42,6 +46,22 @@ function HomeStackScreen() {
     );
 }
 
+function AboutStackScreen() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="About" component={AboutUs} options={AboutUsOptions} />
+        </Stack.Navigator>
+    );
+}
+
+function ContactStackScreen() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Contact" component={ContactUs} options={ContactUsOptions} />
+        </Stack.Navigator>
+    );
+}
+
 
 class Main extends Component {
     constructor(props) {
@@ -56,7 +76,9 @@ class Main extends Component {
             <NavigationContainer>
                 <Drawer.Navigator drawerStyle={{backgroundColor:'#D1C4E9'}}>
                     <Drawer.Screen name="HomeNavigator" component={HomeStackScreen} options={{ title: 'Home Drawer' }} />
-                    <Drawer.Screen name="MenuNavigator" component={DishStackScreen} options={{ title: 'Home Menu' }} />
+                    <Drawer.Screen name="MenuNavigator" component={DishStackScreen} options={{ title: 'Menu Drawer' }} />
+                    <Drawer.Screen name="AboutNavigator" component={AboutStackScreen} options={{ title: 'About Drawer' }} />
+                    <Drawer.Screen name="ContactNavigator" component={ContactStackScreen} options={{ title: 'Contact Drawer'}} />
                 </Drawer.Navigator>
             </NavigationContainer>
         );
