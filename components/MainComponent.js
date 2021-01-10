@@ -74,7 +74,7 @@ class Main extends Component {
     render() {
         return (
             <NavigationContainer>
-                <Drawer.Navigator drawerStyle={{backgroundColor:'#D1C4E9'}}>
+                <Drawer.Navigator initialRouteName="HomeNavigator" drawerStyle={{backgroundColor:'#D1C4E9'}}>
                     <Drawer.Screen name="HomeNavigator" component={HomeStackScreen} options={{ title: 'Home Drawer' }} />
                     <Drawer.Screen name="MenuNavigator" component={DishStackScreen} options={{ title: 'Menu Drawer' }} />
                     <Drawer.Screen name="AboutNavigator" component={AboutStackScreen} options={{ title: 'About Drawer' }} />
