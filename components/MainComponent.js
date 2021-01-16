@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Text, View, Image, StyleSheet } from 'react-native';
+import { Text, View, Image, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem } from '@react-navigation/drawer';
 
 import Menu from './MenuComponent';
 import DishDetail from './DishDetailComponent';
@@ -81,6 +81,23 @@ function ContactStackScreen() {
     );
 }
 
+const CustomDrawerContentComponent = (props) => {
+    return(
+    <DrawerContentScrollView {...props} style={stylesDrawer.container} >
+        <SafeAreaView style={stylesDrawer.container}>
+            <View style={stylesDrawer.drawerHeader}>
+                <View style={{flex:1}}>
+                    <Image source={require('../images/logo.png')} style={stylesDrawer.drawerImage} />
+                </View>
+                <View style={{flex:2}}>
+                    <Text style={stylesDrawer.drawerHeaderText}>Risto restorant</Text>
+                </View>
+            </View>
+            <DrawerItemList {...props} />
+        </SafeAreaView>
+    </DrawerContentScrollView>
+    );
+}
 
 class Main extends Component {
     constructor(props) {
@@ -93,7 +110,7 @@ class Main extends Component {
     render() {
         return (
             <NavigationContainer>
-                <Drawer.Navigator initialRouteName="HomeNavigator" drawerStyle={{ backgroundColor: '#D1C4E9' }}>
+                <Drawer.Navigator initialRouteName="HomeNavigator" drawerContent={CustomDrawerContentComponent}  drawerStyle={{ backgroundColor: '#D1C4E9' }}>
                     <Drawer.Screen name="HomeNavigator" component={HomeStackScreen}
                         options={{ title: 'Home Drawer', drawerIcon: drawerIconMaker(ICON_HOME) }} />
                     <Drawer.Screen name="DishMenuNavigator" component={DishStackScreen}
@@ -114,6 +131,30 @@ export default Main;
 const styles = { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: '#FFFFFF' }
 
 const styleDrawerIcons = { alignSelf: "center", marginRight: 6, paddingLeft: 2 };
+
+const stylesDrawer = StyleSheet.create({
+    container:{
+        flex:1
+    },
+    drawerHeader:{
+        backgroundColor: '#512DA8',
+        height: 140,
+        alignItems: 'center',
+        justifyContent: 'center',
+        flex: 1,
+        flexDirection: 'row',
+    },
+    drawerHeaderText: {
+        color: 'white',
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
+    drawerImage:{
+        margin:10,
+        width:80,
+        height:60,
+    }
+});
 
 const drawerIconMaker = (name, sizeAdjustment=0, type="font-awesome") =>
  ({ color, size, focused }) => <Icon style={styleDrawerIcons} name={name} type={type} size={ICON_SIZE + sizeAdjustment} color={color} />;
