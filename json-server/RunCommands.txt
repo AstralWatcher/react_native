@@ -1,0 +1,5 @@
+json-server --watch db.json -d 2000 -p 3001
+
+-d 2000: delay of 2 seconds
+-p 3001: port at 3001
+needs: npm install -g json-server
