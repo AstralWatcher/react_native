@@ -65,3 +65,11 @@ react-navigation @5
 -- yarn upgrade @react-navigation/native@latest
 expo
 -- yarn add @react-navigation/drawer
+redux
+-- yarn add redux
+-- yarn add react-redux
+-- yarn add redux-thunk
+-- yarn add redux-logger (debug)
+json-server
+-- yarn add -g json-server 
+
