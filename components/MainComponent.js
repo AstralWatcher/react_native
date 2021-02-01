@@ -12,6 +12,24 @@ import ContactUs from './ContactUsComponent';
 import AboutUs from './AboutUsComponent';
 
 import { Icon } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { fetchDishes, fetchComments, fetchLeaders, fetchPromotions } from '../redux/ActionCreators'
+
+const mapStateToProps = (state) => {
+    return {
+        dishes: state.dishes,
+        comments: state.comments,
+        promotions: state.promotions,
+        leaders: state.leaders
+      };
+}
+
+const mapDispatchToProps = dispatch => ({
+    fetchDishes: () => dispatch(fetchDishes()),
+    fetchComments: () => dispatch(fetchComments()),
+    fetchPromotions: () => dispatch(fetchPromotions()),
+    fetchLeaders: () => dispatch(fetchLeaders()),
+})
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -57,7 +75,7 @@ function DishStackScreen() {
     );
 }
 
-function HomeStackScreen() {
+function HomeStackScreen(props) {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Home" component={Home} options={optionsMaker('Home Stack', { name: ICON_MENU })} />
@@ -82,24 +100,32 @@ function ContactStackScreen() {
 }
 
 const CustomDrawerContentComponent = (props) => {
-    return(
-    <DrawerContentScrollView {...props} style={stylesDrawer.container} >
-        <SafeAreaView style={stylesDrawer.container}>
-            <View style={stylesDrawer.drawerHeader}>
-                <View style={{flex:1}}>
-                    <Image source={require('../images/logo.png')} style={stylesDrawer.drawerImage} />
+    return (
+        <DrawerContentScrollView {...props} style={stylesDrawer.container} >
+            <SafeAreaView style={stylesDrawer.container}>
+                <View style={stylesDrawer.drawerHeader}>
+                    <View style={{ flex: 1 }}>
+                        <Image source={require('../images/logo.png')} style={stylesDrawer.drawerImage} />
+                    </View>
+                    <View style={{ flex: 2 }}>
+                        <Text style={stylesDrawer.drawerHeaderText}>Risto restorant</Text>
+                    </View>
                 </View>
-                <View style={{flex:2}}>
-                    <Text style={stylesDrawer.drawerHeaderText}>Risto restorant</Text>
-                </View>
-            </View>
-            <DrawerItemList {...props} />
-        </SafeAreaView>
-    </DrawerContentScrollView>
+                <DrawerItemList {...props} />
+            </SafeAreaView>
+        </DrawerContentScrollView>
     );
 }
 
 class Main extends Component {
+
+    componentDidMount(){
+        this.props.fetchDishes(),
+        this.props.fetchComments(),
+        this.props.fetchPromotions(),
+        this.props.fetchLeaders()
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -110,7 +136,7 @@ class Main extends Component {
     render() {
         return (
             <NavigationContainer>
-                <Drawer.Navigator initialRouteName="HomeNavigator" drawerContent={CustomDrawerContentComponent}  drawerStyle={{ backgroundColor: '#D1C4E9' }}>
+                <Drawer.Navigator initialRouteName="HomeNavigator" drawerContent={CustomDrawerContentComponent} drawerStyle={{ backgroundColor: '#D1C4E9' }}>
                     <Drawer.Screen name="HomeNavigator" component={HomeStackScreen}
                         options={{ title: 'Home Drawer', drawerIcon: drawerIconMaker(ICON_HOME) }} />
                     <Drawer.Screen name="DishMenuNavigator" component={DishStackScreen}
@@ -118,14 +144,15 @@ class Main extends Component {
                     <Drawer.Screen name="AboutNavigator" component={AboutStackScreen}
                         options={{ title: 'About Drawer', drawerIcon: drawerIconMaker(ICON_ABOUT) }} />
                     <Drawer.Screen name="ContactNavigator" component={ContactStackScreen}
-                        options={{ title: 'Contact Drawer', drawerIcon: drawerIconMaker(ICON_CONTACT,-2) }} />
+                        options={{ title: 'Contact Drawer', drawerIcon: drawerIconMaker(ICON_CONTACT, -2) }} />
                 </Drawer.Navigator>
             </NavigationContainer>
         );
     }
 
 }
-export default Main;
+export default connect(mapStateToProps, mapDispatchToProps)(Main);
+
 
 
 const styles = { flex: 1, justifyContent: "center", alignItems: "center", backgroundColor: '#FFFFFF' }
@@ -133,10 +160,10 @@ const styles = { flex: 1, justifyContent: "center", alignItems: "center", backgr
 const styleDrawerIcons = { alignSelf: "center", marginRight: 6, paddingLeft: 2 };
 
 const stylesDrawer = StyleSheet.create({
-    container:{
-        flex:1
+    container: {
+        flex: 1
     },
-    drawerHeader:{
+    drawerHeader: {
         backgroundColor: '#512DA8',
         height: 140,
         alignItems: 'center',
@@ -149,13 +176,13 @@ const stylesDrawer = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
     },
-    drawerImage:{
-        margin:10,
-        width:80,
-        height:60,
+    drawerImage: {
+        margin: 10,
+        width: 80,
+        height: 60,
     }
 });
 
-const drawerIconMaker = (name, sizeAdjustment=0, type="font-awesome") =>
- ({ color, size, focused }) => <Icon style={styleDrawerIcons} name={name} type={type} size={ICON_SIZE + sizeAdjustment} color={color} />;
+const drawerIconMaker = (name, sizeAdjustment = 0, type = "font-awesome") =>
+    ({ color, size, focused }) => <Icon style={styleDrawerIcons} name={name} type={type} size={ICON_SIZE + sizeAdjustment} color={color} />;
 

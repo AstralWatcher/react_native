@@ -1,5 +1,5 @@
 export const DISHES_LOADING = 'DISHES_LOADING';
-export const DISHES_ADD = 'ADD_DISHES';
+export const DISHES_ADD = 'DISHES_ADD';
 export const DISHES_FAILED = 'DISHES_FAILED';
 
 

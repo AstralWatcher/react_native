@@ -1,18 +1,17 @@
+// https://reactnativeelements.com/docs/listitem/
 import React, { Component } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
-import { DISHES } from '../shared/dishes';
+import {connect} from 'react-redux';
+import {baseUrl} from '../shared/baseUrl';
 
-// https://reactnativeelements.com/docs/listitem/
+const mapStateToProps = (state) => {
+    return {
+        dishes: state.dishes,
+    }
+}
 
 class Menu extends Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            dishes: DISHES
-        };
-    }
 
     render() {
         const navigation = this.props.navigation;
@@ -22,7 +21,7 @@ class Menu extends Component {
                 <ListItem bottomDivider
                     onPress={() => navigation.navigate('DishDetail', { dishId: item.id })}
                 >
-                    <Avatar source={require('../images/alberto.png')} />
+                    <Avatar source={{uri: baseUrl + item.image}} />
                     <ListItem.Content>
                         <ListItem.Title>{item.name}</ListItem.Title>
                         <ListItem.Subtitle>{item.category}, {item.image} </ListItem.Subtitle>
@@ -39,7 +38,7 @@ class Menu extends Component {
             <React.Fragment>
                 <FlatList style={{ flex: 1, backgroundColor: 'red' }}
                     keyExtractor={keyExtractor}
-                    data={this.state.dishes}
+                    data={this.props.dishes.dishes}
                     renderItem={renderMenuItem}
 
                 />
@@ -49,7 +48,7 @@ class Menu extends Component {
     }
 }
 
-export default Menu;
+export default connect(mapStateToProps)(Menu);
 
 // (alias) const DISHES: {
 //     id: number;

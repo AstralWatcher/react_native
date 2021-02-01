@@ -48,7 +48,7 @@ This project can be run from a web browser or the Expo client app. You may find 
 ## Software used:
 - Command tool "Create React Native" app by Facebook (so that Xcode and Android studio is not required)
 - Yarn by Facebook (alternative to npm)
-- Expo client (Google Playstore and IOS) - for testing on phone
+- Expo client (Google Playstore and IOS) - for testing on phone (npm install -g expo-cli)
 
 ## How it was made with "Create React Native":
 - yarn global add create-react-native-app (npm install -g create-react-native-app)
@@ -73,3 +73,8 @@ redux
 json-server
 -- yarn add -g json-server 
 
+How to use mocked json server
+https://my-json-server.typicode.com/
+Dishes : https://my-json-server.typicode.com/AstralWatcher/react_native_json_server/dishes
+Dishes id 1 : https://my-json-server.typicode.com/AstralWatcher/react_native_json_server/dishes/1
+Whole db https://my-json-server.typicode.com/AstralWatcher/react_native_json_server/db

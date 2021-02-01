@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-import { render } from 'react-dom';
 import { View, Text , FlatList, ScrollView } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
-import {DISHES} from '../shared/dishes';
-import {COMMENTS} from '../shared/comments';
 
+import {connect} from 'react-redux';
+import {baseUrl} from '../shared/baseUrl';
+
+const mapStateToProps = (state) => {
+    return {
+        dishes: state.dishes,
+        comments: state.comments,
+    }
+}
 
 // https://stackoverflow.com/questions/59894919/how-to-overlay-text-on-card-image-in-react-native
 
@@ -14,7 +20,7 @@ function RenderDish(props) {
     if (dish) {
         return (
             <Card>
-                <Card.Image source={require('../images/alberto.png')}>
+                <Card.Image source={{uri: baseUrl + dish.Image}}>
                     <View style={{flex: 1, alignItems:'center', justifyContent: 'center'}}>
                         <Card.FeaturedTitle style={{ backgroundColor: 'white', color: 'black'}}>{dish.name}</Card.FeaturedTitle>
                     </View>
@@ -73,8 +79,6 @@ class DishDetail extends Component {
     constructor(props){
         super(props);
         this.state = {
-            dishes: DISHES,
-            comments: COMMENTS,
             favorites: [],
         }
     }
@@ -92,7 +96,7 @@ class DishDetail extends Component {
    
     render(){
         const {dishId} = this.props.route.params;
-        let dishClicked= this.state.dishes[parseInt(dishId)];
+        let dishClicked= this.props.dishes.dishes[parseInt(dishId)];
         //TODO fix warrning1 ScrollView overlap with Flatlist
         return (
             <ScrollView>
@@ -100,11 +104,11 @@ class DishDetail extends Component {
                 onAdd={ ()=> this.markFavorite(dishId)}
                 onRemove={ () => this.removeFavorite(dishId)}
                 favorite={this.state.favorites.some(el => el === dishId)} />
-                <RenderComments comments={this.state.comments.filter((comment) => comment.dishId == dishId)} />
+                <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId == dishId)} />
             </ScrollView>
          ); 
     }
     
 }
 
-export default DishDetail;
+export default connect(mapStateToProps)(DishDetail);

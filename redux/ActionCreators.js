@@ -12,6 +12,7 @@ export const fetchComments = () => (dispatch) => {
                 throw error;
             }
         }, error => {
+            console.error('Failed to fetch comments:' + JSON.stringify(error.message));
             var errMess = new Error(error.message);
             throw errMess;
         })
@@ -27,10 +28,8 @@ export const Commentsfailed = (errmess) => ({
 
 export const CommentsAdd = (payload) => ({
     type: ActionTypes.COMMENTS_ADD,
-    payoad: payload
+    payload: payload
 });
-
-
 
 
 export const fetchDishes = () => (dispatch) => {
@@ -49,7 +48,7 @@ export const fetchDishes = () => (dispatch) => {
             throw errMess;
         })
         .then(response => response.json())
-        .then(comments => dispatch(DishesAdd(comments)))
+        .then(dishes => dispatch(DishesAdd(dishes)))
         .catch(error => dispatch(DishesFailed(error.message)))
 }
 
@@ -65,11 +64,11 @@ export const DishesFailed = (errmess) => ({
 
 export const DishesAdd = (payload) => ({
     type: ActionTypes.DISHES_ADD,
-    payoad: payload
+    payload: payload
 });
 
 
-export const fetchPromotion = () => (dispatch) => {
+export const fetchPromotions = () => (dispatch) => {
     dispatch(PromotionsLoading());
     return fetch(baseUrl + 'promotions')
         .then(response => {
@@ -85,7 +84,7 @@ export const fetchPromotion = () => (dispatch) => {
             throw errMess;
         })
         .then(response => response.json())
-        .then(comments => dispatch(PromotionsAdd(comments)))
+        .then(promotions => dispatch(PromotionsAdd(promotions)))
         .catch(error => dispatch(PromotionsFailed(error.message)))
 }
 
@@ -101,7 +100,7 @@ export const PromotionsFailed = (errmess) => ({
 
 export const PromotionsAdd = (payload) => ({
     type: ActionTypes.PROMOS_ADD,
-    payoad: payload
+    payload: payload
 });
 
 
@@ -121,22 +120,22 @@ export const fetchLeaders = () => (dispatch) => {
             throw errMess;
         })
         .then(response => response.json())
-        .then(comments => dispatch(PromotionsAdd(comments)))
-        .catch(error => dispatch(PromotionsFailed(error.message)))
+        .then(leaders => dispatch(LeadersAdd(leaders)))
+        .catch(error => dispatch(LeadersFailed(error.message)))
 }
 
 export const LeadersLoading = () => ({
-    type: ActionTypes.PROMOS_LOADING,
+    type: ActionTypes.LEADERS_LOADING,
     payload: []
 });
 
 export const LeadersFailed = (errmess) => ({
-    type: ActionTypes.PROMOS_FAILED,
+    type: ActionTypes.LEADERS_FAILED,
     payload: errmess
 });
 
 export const LeadersAdd = (payload) => ({
-    type: ActionTypes.PROMOS_ADD,
-    payoad: payload
+    type: ActionTypes.LEADERS_ADD,
+    payload: payload
 });
 

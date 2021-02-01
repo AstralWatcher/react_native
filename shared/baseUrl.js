@@ -1,1 +1,1 @@
-export const baseUrl = 'http://Astral:3001';
+export const baseUrl = 'https://my-json-server.typicode.com/AstralWatcher/react_native_json_server/';
