@@ -26,6 +26,19 @@
  
   - Web: Any web browser
 
+## How to debug:
+- React devtools
+	-1) yarn global add react-devtools
+	-2) Type:"react-devtools"
+	-3) You can see details of react native app
+- Expo
+	-1) shake device
+	-2) Debug JS remotely
+	-3) Go to debuggerWorker.js > Find your js file
+- Simulator
+	-1) CTRL + D 
+  
+  
 ## Adding Native Code
 
 This project can be run from a web browser or the Expo client app. You may find that you want to add more native code later on. You can do this by ejecting the project and rebuilding it yourself.
