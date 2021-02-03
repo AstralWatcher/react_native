@@ -4,7 +4,7 @@ import { Card } from 'react-native-elements';
 
 import {connect} from 'react-redux';
 import {baseUrl} from '../shared/baseUrl';
-
+import {Loading} from './LoadingComponent';
 
 const mapStateToProps = state => {
     return {
@@ -16,6 +16,18 @@ const mapStateToProps = state => {
 
 function RenderCard(props) {
     const info = props.info;
+
+    if(props.isLoading) {
+        return (
+            <Loading />
+        )
+    } else if(props.errMess) {
+        return(
+            <View>
+                <Text>{props.errMess}</Text>
+            </View>
+        )
+    }
 
     if (info) {
         const subText = (info.designation) ? info.designation : '';
@@ -49,9 +61,9 @@ class Home extends Component {
             <View>
                 <Text>Home component</Text>
                 <ScrollView>
-                    <RenderCard info={this.props.dishes.dishes.filter( item => item.featured === true)[0]} />
-                    <RenderCard info={this.props.promotions.promotions.filter( item => item.featured === true)[0]} />
-                    <RenderCard info={this.props.leaders.leaders.filter( item => item.featured === true)[0]} />
+                    <RenderCard errMess={this.props.dishes.errMess} isLoading={this.props.dishes.isLoading} info={this.props.dishes.dishes.filter( item => item.featured === true)[0]} />
+                    <RenderCard errMess={this.props.promotions.errMess} isLoading={this.props.promotions.isLoading} info={this.props.promotions.promotions.filter( item => item.featured === true)[0]} />
+                    <RenderCard errMess={this.props.leaders.errMess} isLoading={this.props.leaders.isLoading} info={this.props.leaders.leaders.filter( item => item.featured === true)[0]} />
                 </ScrollView>
             </View>
         );

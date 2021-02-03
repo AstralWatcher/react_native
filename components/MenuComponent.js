@@ -4,6 +4,7 @@ import { View, FlatList, Text } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
 import {connect} from 'react-redux';
 import {baseUrl} from '../shared/baseUrl';
+import {Loading} from './LoadingComponent';
 
 const mapStateToProps = (state) => {
     return {
@@ -34,17 +35,30 @@ class Menu extends Component {
         }
 
         const keyExtractor = (item, index) => index.toString()
-        return (
-            <React.Fragment>
-                <FlatList style={{ flex: 1, backgroundColor: 'red' }}
-                    keyExtractor={keyExtractor}
-                    data={this.props.dishes.dishes}
-                    renderItem={renderMenuItem}
-
-                />
-                <Text>{this.props.selected || 'Nista'}  { /* TODO DELETE */}</Text>
-            </React.Fragment>
-        );
+        if(this.props.dishes.isLoading){
+            return(
+                <Loading/>
+            );
+        }
+        else if(this.props.dishes.errMess){
+            return(
+                <View>
+                    <Text>{this.props.dishes.errMess}</Text>
+                </View>
+            )
+        } else {
+            return (
+                <React.Fragment>
+                    <FlatList style={{ flex: 1, backgroundColor: 'red' }}
+                        keyExtractor={keyExtractor}
+                        data={this.props.dishes.dishes}
+                        renderItem={renderMenuItem}
+    
+                    />
+                    <Text>{this.props.selected || 'Nista'}  { /* TODO DELETE */}</Text>
+                </React.Fragment>
+            );
+        }
     }
 }
 
