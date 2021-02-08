@@ -8,7 +8,7 @@ class ContactUs extends Component {
     render() {
         const info = ['Our Address 121', 'Clear Water Bay Road', 'Clear Water Bay Kowloon', 'HONG KONG', 'Tel: +852 1234 5678', 'Fax: +852 8765 4321', 'Email:confusion@food.net'];
 
-        const render = info.map((info) => <React.Fragment>{info + '\n'}</React.Fragment>);
+        const render = info.map((info,index) => <React.Fragment key={index}>{info + '\n'}</React.Fragment>);
 
         return (
             <View>

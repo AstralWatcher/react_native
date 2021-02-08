@@ -10,6 +10,7 @@ import DishDetail from './DishDetailComponent';
 import Home from './HomeComponent';
 import ContactUs from './ContactUsComponent';
 import AboutUs from './AboutUsComponent';
+import Reservation from './ReservationComponent';
 
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -64,6 +65,7 @@ const ICON_HOME = 'home';
 const ICON_ABOUT = 'info-circle';
 const ICON_CONTACT = 'address-card';
 const ICON_DISH = 'list';
+const ICON_RESERVATION = 'cutlery';
 const ICON_SIZE = 24;
 
 function DishStackScreen() {
@@ -86,7 +88,7 @@ function HomeStackScreen(props) {
 function AboutStackScreen() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="About" component={AboutUs} options={optionsMaker('Home Stack', { name: ICON_MENU })} />
+            <Stack.Screen name="About" component={AboutUs} options={optionsMaker('About Stack', { name: ICON_MENU })} />
         </Stack.Navigator>
     );
 }
@@ -94,7 +96,15 @@ function AboutStackScreen() {
 function ContactStackScreen() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Contact" component={ContactUs} options={optionsMaker('Home Stack', { name: ICON_MENU })} />
+            <Stack.Screen name="Contact" component={ContactUs} options={optionsMaker('Contact Stack', { name: ICON_MENU })} />
+        </Stack.Navigator>
+    );
+}
+
+function ReservationStackScreen() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Contact" component={Reservation} options={optionsMaker('Reservation Stack', { name: ICON_MENU })} />
         </Stack.Navigator>
     );
 }
@@ -145,6 +155,8 @@ class Main extends Component {
                         options={{ title: 'About Drawer', drawerIcon: drawerIconMaker(ICON_ABOUT) }} />
                     <Drawer.Screen name="ContactNavigator" component={ContactStackScreen}
                         options={{ title: 'Contact Drawer', drawerIcon: drawerIconMaker(ICON_CONTACT, -2) }} />
+                    <Drawer.Screen name="ReservationNavigator" component={ReservationStackScreen}
+                        options={{ title: 'Reservation Drawer', drawerIcon: drawerIconMaker(ICON_RESERVATION) }} />
                 </Drawer.Navigator>
             </NavigationContainer>
         );
