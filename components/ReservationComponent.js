@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {Text, View, ScrollView, StyleSheet, Switch} from 'react-native';
+import {Text, View, ScrollView, StyleSheet, Switch, Modal, Button} from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import DatePicker from 'react-native-datepicker'; // TODO Fix Component https://github.com/xgfe/react-native-datepicker/issues/355 change for @react-native-community/datetimepicker
-import { Button } from 'react-native';
+
 
 class Reservation extends Component {
     constructor(props){
@@ -10,7 +10,8 @@ class Reservation extends Component {
         this.state = {
             guests: 1,
             smoking: false,
-            date: new Date()
+            date: new Date(),
+            showModal: false
         }
     }
 
@@ -20,14 +21,20 @@ class Reservation extends Component {
 
     handleReservation() {
         console.log(JSON.stringify(this.state))
-        this.setState({
+        this.toggleModal();
+    }
+
+    toggleModal() {
+        this.setState({showModal: !this.state.showModal})
+    }
+
+    resetForm(){
+        this.setState ({
             guests: 1,
             smoking: false,
             date: new Date(),
-            showModal: false
         });
     }
-
     render(){
         return(
             <ScrollView>
@@ -94,7 +101,24 @@ class Reservation extends Component {
                         accessibilityLabel='Reserve button for this restoront'
                     />
                 </View>
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={this.state.showModal}
+                    onDismiss={()=> {this.toggleModal(); this.resetForm()}}
+                    onRequestClose={()=> {this.toggleModal(); this.resetForm()}}
+                >
+                <View style={styles.modal}>
+                    <Text style={styles.modalTitle}>Your Reservation</Text>
+                    <Text style={styles.modalText}>Number of guests: {this.state.guests}</Text>
+                    <Text style={styles.modalText}>Smoking: {this.state.smoking? 'Yes':'No'}</Text>
+                    <Text style={styles.modalText}>Date and Time: {JSON.stringify(this.state.date)}</Text>
+                    <Button title='Close' onPress={()=> {this.toggleModal(); this.resetForm()}}></Button>
+                </View>
+
+                </Modal>
             </ScrollView>
+          
         );
     }
 
@@ -115,6 +139,22 @@ const styles = StyleSheet.create({
     },
     formItem: {
         flex:1
+    },
+    modal: {
+        justifyContent: 'center',
+        margin: 20
+    },
+    modalTitle: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        backgroundColor: '#512DA8',
+        textAlign:'center',
+        color:'white',
+        marginBottom: 20
+    },
+    modalText: {
+        fontSize: 18,
+        margin:10
     }
 });
 
