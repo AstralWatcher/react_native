@@ -1,5 +1,6 @@
 import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseUrl';
+import { render } from 'react-dom';
 
 export const fetchComments = () => (dispatch) => {
     return fetch(baseUrl + 'comments')
@@ -21,6 +22,19 @@ export const fetchComments = () => (dispatch) => {
         .catch(error => dispatch(Commentsfailed(error.message)))
 }
 
+export const postComment = (dishId, rating, author, comment) => (dispatch) => {
+    var payload = {
+        dishId: dishId,
+        rating: rating,
+        comment: comment,
+        author: author,
+        date : new Date().toISOString()
+    }
+    setTimeout(()=> {
+        dispatch(CommentsPost(payload))
+    },2000)
+}
+
 export const Commentsfailed = (errmess) => ({
     type: ActionTypes.COMMENTS_FAILED,
     payload: errmess
@@ -28,6 +42,11 @@ export const Commentsfailed = (errmess) => ({
 
 export const CommentsAdd = (payload) => ({
     type: ActionTypes.COMMENTS_ADD,
+    payload: payload
+});
+
+export const CommentsPost = (payload) => ({
+    type: ActionTypes.ADD_COMMENT,
     payload: payload
 });
 

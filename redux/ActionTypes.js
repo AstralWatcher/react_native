@@ -5,6 +5,7 @@ export const DISHES_FAILED = 'DISHES_FAILED';
 
 export const COMMENTS_ADD = 'COMMENTS_ADD';
 export const COMMENTS_FAILED = 'COMMENTS_FAILED';
+export const ADD_COMMENT = 'ADD_COMMENT';
 
 export const PROMOS_LOADING = 'PROMOS_LOADING';
 export const PROMOS_ADD = 'PROMOS_ADD';
