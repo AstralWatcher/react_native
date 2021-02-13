@@ -46,7 +46,7 @@ export const CommentsAdd = (payload) => ({
 });
 
 export const CommentsPost = (payload) => ({
-    type: ActionTypes.ADD_COMMENT,
+    type: ActionTypes.COMMENT_POST,
     payload: payload
 });
 

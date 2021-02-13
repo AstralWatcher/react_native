@@ -11,6 +11,7 @@ import Home from './HomeComponent';
 import ContactUs from './ContactUsComponent';
 import AboutUs from './AboutUsComponent';
 import Reservation from './ReservationComponent';
+import Favorites from './FavoriteComponent';
 
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -66,6 +67,7 @@ const ICON_ABOUT = 'info-circle';
 const ICON_CONTACT = 'address-card';
 const ICON_DISH = 'list';
 const ICON_RESERVATION = 'cutlery';
+const ICON_FAVORITES = 'heart';
 const ICON_SIZE = 24;
 
 function DishStackScreen() {
@@ -104,7 +106,16 @@ function ContactStackScreen() {
 function ReservationStackScreen() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Contact" component={Reservation} options={optionsMaker('Reservation Stack', { name: ICON_MENU })} />
+            <Stack.Screen name="Reservation" component={Reservation} options={optionsMaker('Reservation Stack', { name: ICON_MENU })} />
+        </Stack.Navigator>
+    );
+}
+
+function FavoritesStackScreen() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Favorites" component={Favorites} options={optionsMaker('Favorites Stack', { name: ICON_MENU })} />
+            <Stack.Screen name="DishDetail" component={DishDetail} options={optionsMaker('Dish Details Stack')} />
         </Stack.Navigator>
     );
 }
@@ -157,6 +168,8 @@ class Main extends Component {
                         options={{ title: 'Contact Drawer', drawerIcon: drawerIconMaker(ICON_CONTACT, -2) }} />
                     <Drawer.Screen name="ReservationNavigator" component={ReservationStackScreen}
                         options={{ title: 'Reservation Drawer', drawerIcon: drawerIconMaker(ICON_RESERVATION) }} />
+                    <Drawer.Screen name="FavoritesNavigator" component={FavoritesStackScreen}
+                        options={{ title: 'Favorites Drawer', drawerIcon: drawerIconMaker(ICON_FAVORITES) }} />
                 </Drawer.Navigator>
             </NavigationContainer>
         );
