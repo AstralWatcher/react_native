@@ -85,6 +85,7 @@ redux
 -- yarn add redux-logger (debug)
 json-server
 -- yarn add -g json-server 
+→ yarn add react-native-swipeout
 
 How to use mocked json server
 https://my-json-server.typicode.com/

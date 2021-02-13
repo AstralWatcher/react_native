@@ -7,6 +7,8 @@ export const ReducerFavorite = (state=[], action) => {
                 return state;
             else 
                 return state.concat(action.payload);
+        case ActionTypes.FAVORITES_DELETE:
+            return state.filter((favoritesDishId) => favoritesDishId !== action.payload)
         default:
             return state;
     }
