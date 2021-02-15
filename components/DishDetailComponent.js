@@ -5,7 +5,7 @@ import { Card, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 
-import { postComment, postFavorite } from '../redux/ActionCreators';
+import { postComment, postFavorite, deleteFavorite } from '../redux/ActionCreators';
 import { render } from 'react-dom';
 import { Rating } from 'react-native-ratings';
 import * as Animatable from 'react-native-animatable';
@@ -21,6 +21,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
     postFavorite: (dishId) => dispatch(postFavorite(dishId)),
+    deleteFavorite: (dishId) => dispatch(deleteFavorite(dishId)),
     postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment))
 })
 
@@ -241,7 +242,7 @@ class DishDetail extends Component {
     }
 
     removeFavorite(dishId) {
-        //TODO
+        this.props.deleteFavorite(dishId);
     }
     componentDidMount() {
     }

@@ -87,6 +87,8 @@ json-server
 -- yarn add -g json-server 
 → yarn add react-native-swipeout
 
+→ yarn add react-native-animatable
+
 How to use mocked json server
 https://my-json-server.typicode.com/
 Dishes : https://my-json-server.typicode.com/AstralWatcher/react_native_json_server/dishes
