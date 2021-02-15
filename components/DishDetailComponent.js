@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, ScrollView, Modal, TextInput, StyleSheet, Button, TouchableOpacity } from 'react-native';
+import { View, Text, FlatList, ScrollView, Modal, TextInput, StyleSheet, Button, TouchableOpacity, Alert, PanResponder } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 
 import { connect } from 'react-redux';
@@ -59,47 +59,81 @@ class RenderDish extends Component {
         this.toggleModal();
         this.props.postComment(this.props.dish.id, this.state.rating, this.state.author, this.state.comment);
     }
+
+
+
+
     render() {
         const dish = this.props.dish;
+        const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
+            if ( dx < -200 )
+                return true;
+            else
+                return false;
+        }
+    
+        const panResponder = PanResponder.create({
+            onStartShouldSetPanResponder: (e, gestureState) => {
+                return true;
+            },
+            onPanResponderEnd: (e, gestureState) => {
+                console.log("pan responder end", gestureState);
+                if (recognizeDrag(gestureState))
+                    Alert.alert(
+                        'Add Favorite',
+                        'Are you sure you wish to add ' + dish.name + ' to favorite?',
+                        [
+                        {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                        {text: 'OK', onPress: () => {this.props.favorite ? this.props.onRemove() : this.props.onAdd()}},
+                        ],
+                        { cancelable: false }
+                    );
+    
+                return true;
+            }
+        })
 
         if (dish) {
             return (
                 <View>
-                    <Card>
-                        <Card.Image source={{ uri: baseUrl + dish.Image }}>
-                            <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                                <Card.FeaturedTitle style={{ backgroundColor: 'white', color: 'black' }}>{dish.name}</Card.FeaturedTitle>
-                            </View>
-                            <View style={{ position: 'absolute', top: 0, right: 0 }}>
-                                <Text style={{ fontSize: 20, color: 'black', backgroundColor: 'red' }}>
-                                    How new
+           
+                    <Animatable.View animation='fadeInDown' duration={1000} delay={500} {...panResponder.panHandlers}>
+                        <Card >
+                            <Card.Image source={{ uri: baseUrl + dish.Image }}>
+                                <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+                                    <Card.FeaturedTitle style={{ backgroundColor: 'white', color: 'black' }}>{dish.name}</Card.FeaturedTitle>
+                                </View>
+                                <View style={{ position: 'absolute', top: 0, right: 0 }}>
+                                    <Text style={{ fontSize: 20, color: 'black', backgroundColor: 'red' }}>
+                                        How new
                         </Text>
+                                </View>
+                            </Card.Image>
+                            <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
+                                <Icon
+
+                                    reverse
+                                    raised
+                                    name={this.props.favorite ? 'heart' : 'heart-o'}
+                                    type='font-awesome'
+                                    color='#f50'
+                                    onPress={() => this.props.favorite ? this.props.onRemove() : this.props.onAdd()}
+                                />
+                                <Icon
+                                    reverse
+                                    raised
+                                    name='edit'
+                                    type='font-awesome'
+                                    color={styles.buttons.backgroundColor}
+                                    onPress={() => this.toggleModal()}
+                                />
                             </View>
-                        </Card.Image>
-                        <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
-                            <Icon
 
-                                reverse
-                                raised
-                                name={this.props.favorite ? 'heart' : 'heart-o'}
-                                type='font-awesome'
-                                color='#f50'
-                                onPress={() => this.props.favorite ? this.props.onRemove() : this.props.onAdd()}
-                            />
-                            <Icon
-                                reverse
-                                raised
-                                name='edit'
-                                type='font-awesome'
-                                color={styles.buttons.backgroundColor}
-                                onPress={() => this.toggleModal()}
-                            />
-                        </View>
-
-                        <Text style={{ margin: 10 }}>
-                            {dish.description}
-                        </Text>
-                    </Card>
+                            <Text style={{ margin: 10 }}>
+                                {dish.description}
+                            </Text>
+                        </Card>
+                    </Animatable.View>
                     <Modal
                         animationType="slide"
                         transparent={false}
