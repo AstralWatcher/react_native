@@ -62,6 +62,7 @@ class RenderDish extends Component {
     }
 
 
+    handleViewRef = ref => this.view = ref;
 
 
     render() {
@@ -76,6 +77,10 @@ class RenderDish extends Component {
         const panResponder = PanResponder.create({
             onStartShouldSetPanResponder: (e, gestureState) => {
                 return true;
+            },
+            onPanResponderGrant: () => {
+                this.view.rubberBand(1000)
+                .then(endState => console.log(endState.finished ? 'finished rubberBand for DishDetail': 'cancelled'))
             },
             onPanResponderEnd: (e, gestureState) => {
                 console.log("pan responder end", gestureState);
@@ -98,7 +103,9 @@ class RenderDish extends Component {
             return (
                 <View>
            
-                    <Animatable.View animation='fadeInDown' duration={1000} delay={500} {...panResponder.panHandlers}>
+                    <Animatable.View animation='fadeInDown' duration={1000} delay={500}
+                        ref={this.handleViewRef}
+                        {...panResponder.panHandlers}>
                         <Card >
                             <Card.Image source={{ uri: baseUrl + dish.Image }}>
                                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
