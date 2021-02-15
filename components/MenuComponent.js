@@ -2,9 +2,10 @@
 import React, { Component } from 'react';
 import { View, FlatList, Text } from 'react-native';
 import { Avatar, ListItem } from 'react-native-elements';
-import {connect} from 'react-redux';
-import {baseUrl} from '../shared/baseUrl';
-import {Loading} from './LoadingComponent';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+import { Loading } from './LoadingComponent';
+import * as Animatable from 'react-native-animatable';
 
 const mapStateToProps = (state) => {
     return {
@@ -16,32 +17,35 @@ class Menu extends Component {
 
     render() {
         const navigation = this.props.navigation;
-
+        
         const renderMenuItem = ({ item, index }) => {
+            let factor = Math.floor(Math.random() * 200)
             return (
-                <ListItem bottomDivider
-                    onPress={() => navigation.navigate('DishDetail', { dishId: item.id })}
-                >
-                    <Avatar source={{uri: baseUrl + item.image}} />
-                    <ListItem.Content>
-                        <ListItem.Title>{item.name}</ListItem.Title>
-                        <ListItem.Subtitle>{item.category}, {item.image} </ListItem.Subtitle>
-                        <Text>{item.description}</Text>
-                        <ListItem.Chevron />
-                    </ListItem.Content >
-                    <ListItem.Chevron color="black" />
-                </ListItem>
+                <Animatable.View animation='fadeInRightBig' duration={1000 - factor}>
+                    <ListItem bottomDivider
+                        onPress={() => navigation.navigate('DishDetail', { dishId: item.id })}
+                    >
+                        <Avatar source={{ uri: baseUrl + item.image }} />
+                        <ListItem.Content>
+                            <ListItem.Title>{item.name}</ListItem.Title>
+                            <ListItem.Subtitle>{item.category}, {item.image} </ListItem.Subtitle>
+                            <Text>{item.description}</Text>
+                            <ListItem.Chevron />
+                        </ListItem.Content >
+                        <ListItem.Chevron color="black" />
+                    </ListItem>
+                </Animatable.View>
             )
         }
 
         const keyExtractor = (item, index) => index.toString()
-        if(this.props.dishes.isLoading){
-            return(
-                <Loading/>
+        if (this.props.dishes.isLoading) {
+            return (
+                <Loading />
             );
         }
-        else if(this.props.dishes.errMess){
-            return(
+        else if (this.props.dishes.errMess) {
+            return (
                 <View>
                     <Text>{this.props.dishes.errMess}</Text>
                 </View>
@@ -49,11 +53,11 @@ class Menu extends Component {
         } else {
             return (
                 <React.Fragment>
-                    <FlatList style={{ flex: 1, backgroundColor: 'red' }}
+                    <FlatList style={{ flex: 1 }}
                         keyExtractor={keyExtractor}
                         data={this.props.dishes.dishes}
                         renderItem={renderMenuItem}
-    
+
                     />
                     <Text>{this.props.selected || 'Nista'}  { /* TODO DELETE */}</Text>
                 </React.Fragment>

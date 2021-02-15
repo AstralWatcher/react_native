@@ -5,7 +5,8 @@ import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import { Loading } from './LoadingComponent';
 import Swipeout from 'react-native-swipeout';
-import {deleteFavorite} from '../redux/ActionCreators';
+import { deleteFavorite } from '../redux/ActionCreators';
+import * as Animatable from 'react-native-animatable';
 
 const mapStateToProps = state => {
     return {
@@ -35,27 +36,29 @@ class Favorites extends Component {
                             'Delete Favorite',
                             "Are you sure you wish to delete favorite dish " + item.name,
                             [
-                                {text: 'Cancel', onPress: {}, style:'cancel'},
-                                {text: 'Ok', onPress: () => this.props.deleteFavorite(item.id), style:'destructive'}
+                                { text: 'Cancel', onPress: {}, style: 'cancel' },
+                                { text: 'Ok', onPress: () => this.props.deleteFavorite(item.id), style: 'destructive' }
                             ],
-                            {cancelable:false}
+                            { cancelable: false }
                         );
                     }
                 }
             ];
             return (
                 <Swipeout right={rightButton} autoClose={true}>
-                    <ListItem bottomDivider
-                        onPress={() => navigation.navigate('DishDetail', { dishId: item.id })}
-                    >
-                        <Avatar source={{ uri: baseUrl + item.image }} />
-                        <ListItem.Content>
-                            <ListItem.Title>{item.name}</ListItem.Title>
-                            <ListItem.Subtitle>{item.category}, {item.image} </ListItem.Subtitle>
-                            <Text>{item.description}</Text>
-                            <ListItem.Chevron />
-                        </ListItem.Content >
-                    </ListItem>
+                    <Animatable.View animation='fadeInRightBig' duration={2000}>
+                        <ListItem bottomDivider
+                            onPress={() => navigation.navigate('DishDetail', { dishId: item.id })}
+                        >
+                            <Avatar source={{ uri: baseUrl + item.image }} />
+                            <ListItem.Content>
+                                <ListItem.Title>{item.name}</ListItem.Title>
+                                <ListItem.Subtitle>{item.category}, {item.image} </ListItem.Subtitle>
+                                <Text>{item.description}</Text>
+                                <ListItem.Chevron />
+                            </ListItem.Content >
+                        </ListItem>
+                    </Animatable.View>
                 </Swipeout>
             )
         }

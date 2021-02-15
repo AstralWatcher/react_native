@@ -8,6 +8,7 @@ import { baseUrl } from '../shared/baseUrl';
 import { postComment, postFavorite } from '../redux/ActionCreators';
 import { render } from 'react-dom';
 import { Rating } from 'react-native-ratings';
+import * as Animatable from 'react-native-animatable';
 
 
 const mapStateToProps = (state) => {
@@ -20,7 +21,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => ({
     postFavorite: (dishId) => dispatch(postFavorite(dishId)),
-    postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId,rating,author,comment))
+    postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment))
 })
 
 // https://stackoverflow.com/questions/59894919/how-to-overlay-text-on-card-image-in-react-native
@@ -52,9 +53,9 @@ class RenderDish extends Component {
     }
 
     ratingCompleted(rating) {
-        this.setState({...this.state, rating:rating });
+        this.setState({ ...this.state, rating: rating });
     }
-    submit(){
+    submit() {
         this.toggleModal();
         this.props.postComment(this.props.dish.id, this.state.rating, this.state.author, this.state.comment);
     }
@@ -75,7 +76,7 @@ class RenderDish extends Component {
                         </Text>
                             </View>
                         </Card.Image>
-                        <View style={{ justifyContent: 'center', flexDirection:'row' }}>
+                        <View style={{ justifyContent: 'center', flexDirection: 'row' }}>
                             <Icon
 
                                 reverse
@@ -147,7 +148,7 @@ class RenderDish extends Component {
                                 </Text>
                             </TouchableOpacity >
 
-                            <TouchableOpacity onPress={() => { this.toggleModal(); this.resetForm()} }>
+                            <TouchableOpacity onPress={() => { this.toggleModal(); this.resetForm() }}>
                                 <Text style={[styles.buttons, { backgroundColor: 'gray' }]}>
                                     Cancel
                                 </Text>
@@ -170,8 +171,8 @@ class RenderDish extends Component {
 
 function RenderComments(props) {
     const comments = props.comments;
-    if (!comments){
-        return(<React.Fragment></React.Fragment>)
+    if (!comments) {
+        return (<React.Fragment></React.Fragment>)
     }
     const renderCommentItem = ({ item, index }) => {
         return (
@@ -183,16 +184,19 @@ function RenderComments(props) {
         );
     }
     return (
-        <Card>
-            <Card.Title>Comments</Card.Title>
-            <View>
-                <FlatList
-                    data={comments}
-                    renderItem={renderCommentItem}
-                    keyExtractor={item => item.id.toString()}
-                />
-            </View>
-        </Card>
+        <Animatable.View animation='fadeInDown' duration={1000} delay={500}>
+            <Card>
+                <Card.Title>Comments</Card.Title>
+                <View>
+                    <FlatList
+                        data={comments}
+                        renderItem={renderCommentItem}
+                        keyExtractor={item => item.id.toString()}
+                    />
+                </View>
+            </Card>
+        </Animatable.View>
+
     )
 }
 
@@ -211,7 +215,7 @@ class DishDetail extends Component {
         const { dishId } = this.props.route.params;
         let dishClicked = this.props.dishes.dishes[parseInt(dishId)];
         let comments = null;
-        if(this.props.comments.comments){
+        if (this.props.comments.comments) {
             comments = this.props.comments.comments.filter((comment) => comment.dishId == dishId)
         }
 
