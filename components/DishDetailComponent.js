@@ -62,7 +62,7 @@ class RenderDish extends Component {
     }
 
 
-    handleViewRef = ref => this.view = ref;
+    handleViewRef = (ref) => this.view = ref;
 
 
     render() {
