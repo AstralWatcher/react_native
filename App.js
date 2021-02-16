@@ -1,31 +1,23 @@
 import * as React from "react";
 import Main from './components/MainComponent';
-import {Provider} from 'react-redux';
-import {ConfigureStore} from './redux/configureStore';
+import { Provider } from 'react-redux';
+import { ConfigureStore } from './redux/configureStore';
+import { PersistGate } from 'redux-persist/es/integration/react';
+import { Loading } from './components/LoadingComponent';
 
-const store = ConfigureStore();
+const { persistor, store } = ConfigureStore();
 
 function App() {
   return (
     <Provider store={store}>
-      <Main />
+      <PersistGate
+        loading={<Loading />}
+        persistor={persistor}
+      >
+        <Main />
+      </PersistGate>
     </Provider>
   );
 }
 
 export default App;
-
-//Old
-//import {View, Text, StyleSheet } from 'react-native';
-
-//<View style={styles.container}>
-//   <Text>Universal React with Expo 23</Text>
-// </View>
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "center",
-//   }
-// });

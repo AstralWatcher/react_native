@@ -88,6 +88,9 @@ json-server
 → yarn add react-native-swipeout
 
 → yarn add react-native-animatable
+redux persist:
+→ yarn add redux-persist
+→ yarn add react-native-async-storage/async-storage
 
 How to use mocked json server
 https://my-json-server.typicode.com/
