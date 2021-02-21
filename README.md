@@ -92,6 +92,8 @@ redux persist:
 → yarn add redux-persist
 → yarn add react-native-async-storage/async-storage
 
+For storage on device using expo-secure-store SecureStore
+
 How to use mocked json server
 https://my-json-server.typicode.com/
 Dishes : https://my-json-server.typicode.com/AstralWatcher/react_native_json_server/dishes

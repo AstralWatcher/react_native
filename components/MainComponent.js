@@ -12,6 +12,7 @@ import ContactUs from './ContactUsComponent';
 import AboutUs from './AboutUsComponent';
 import Reservation from './ReservationComponent';
 import Favorites from './FavoriteComponent';
+import Login from './LoginComponent';
 
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -62,6 +63,7 @@ const optionsMaker = (title, iconOptions) => ({ navigation, route }) => {
 };
 
 const ICON_MENU = 'menu';
+const ICON_LOGIN = 'user';
 const ICON_HOME = 'home';
 const ICON_ABOUT = 'info-circle';
 const ICON_CONTACT = 'address-card';
@@ -83,6 +85,14 @@ function HomeStackScreen(props) {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Home" component={Home} options={optionsMaker('Home Stack', { name: ICON_MENU })} />
+        </Stack.Navigator>
+    );
+}
+
+function LoginStackScreen() {
+    return (
+        <Stack.Navigator>
+            <Stack.Screen name="Login" component={Login} options={optionsMaker('Login Stack', { name: ICON_MENU })} />
         </Stack.Navigator>
     );
 }
@@ -153,23 +163,25 @@ class Main extends Component {
             selectedDish: null
         }
     }
-
+    // unmountOnBlur:true => Will unmount the comonent when drawer focus is changed
     render() {
         return (
             <NavigationContainer>
                 <Drawer.Navigator initialRouteName="HomeNavigator" drawerContent={CustomDrawerContentComponent} drawerStyle={{ backgroundColor: '#D1C4E9' }}>
+                    <Drawer.Screen name="LoginNavigator" component={LoginStackScreen}
+                        options={{ title: 'Login Drawer', drawerIcon: drawerIconMaker(ICON_LOGIN), unmountOnBlur:true }} />
                     <Drawer.Screen name="HomeNavigator" component={HomeStackScreen}
-                        options={{ title: 'Home Drawer', drawerIcon: drawerIconMaker(ICON_HOME) }} />
+                        options={{ title: 'Home Drawer', drawerIcon: drawerIconMaker(ICON_HOME), unmountOnBlur:true }} />
                     <Drawer.Screen name="DishMenuNavigator" component={DishStackScreen}
-                        options={{ title: 'Menu Drawer', drawerIcon: drawerIconMaker(ICON_DISH) }} />
+                        options={{ title: 'Menu Drawer', drawerIcon: drawerIconMaker(ICON_DISH), unmountOnBlur:true }} />
                     <Drawer.Screen name="AboutNavigator" component={AboutStackScreen}
-                        options={{ title: 'About Drawer', drawerIcon: drawerIconMaker(ICON_ABOUT) }} />
+                        options={{ title: 'About Drawer', drawerIcon: drawerIconMaker(ICON_ABOUT), unmountOnBlur:true }} />
                     <Drawer.Screen name="ContactNavigator" component={ContactStackScreen}
-                        options={{ title: 'Contact Drawer', drawerIcon: drawerIconMaker(ICON_CONTACT, -2) }} />
+                        options={{ title: 'Contact Drawer', drawerIcon: drawerIconMaker(ICON_CONTACT, -2), unmountOnBlur:true }} />
                     <Drawer.Screen name="ReservationNavigator" component={ReservationStackScreen}
-                        options={{ title: 'Reservation Drawer', drawerIcon: drawerIconMaker(ICON_RESERVATION) }} />
+                        options={{ title: 'Reservation Drawer', drawerIcon: drawerIconMaker(ICON_RESERVATION), unmountOnBlur:true }} />
                     <Drawer.Screen name="FavoritesNavigator" component={FavoritesStackScreen}
-                        options={{ title: 'Favorites Drawer', drawerIcon: drawerIconMaker(ICON_FAVORITES) }} />
+                        options={{ title: 'Favorites Drawer', drawerIcon: drawerIconMaker(ICON_FAVORITES), unmountOnBlur:true }} />
                 </Drawer.Navigator>
             </NavigationContainer>
         );
