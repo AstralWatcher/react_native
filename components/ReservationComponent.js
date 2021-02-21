@@ -1,8 +1,27 @@
 import React, { Component } from 'react';
-import { Text, View, ScrollView, StyleSheet, Switch, Modal, Button, Alert } from 'react-native';
+import { Text, View, ScrollView, StyleSheet, Switch, Modal, Button, Alert, Platform } from 'react-native';
 import { Picker } from '@react-native-community/picker';
 import DatePicker from 'react-native-datepicker'; // TODO Fix Component https://github.com/xgfe/react-native-datepicker/issues/355 change for @react-native-community/datetimepicker
 import * as Animatable from 'react-native-animatable';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => {
+        return {
+            shouldShowAlert: true,
+            shouldPlaySound: true,
+            shouldSetBadge: true,
+        };
+    },
+});
+
+if (Platform.OS === 'android') {
+    Notifications.setNotificationChannelAsync('default', {
+        importance: Notifications.AndroidImportance.DEFAULT,
+        enableVibrate: true
+    });
+}
 
 class Reservation extends Component {
     constructor(props) {
@@ -31,7 +50,10 @@ class Reservation extends Component {
                 {
                     text: 'Ok',
                     style: 'default',
-                    onPress: () => { this.resetForm() }
+                    onPress: () => {
+                        this.presentLocalNotification(this.state.date);
+                        this.resetForm();
+                    }
                 }
             ]
         )
@@ -49,6 +71,30 @@ class Reservation extends Component {
             date: new Date(),
         });
     }
+
+    async obtainNotificationPermission() {
+        let permission = await Permissions.getAsync(Permissions.USER_FACING_NOTIFICATIONS);
+        if (permission.status !== 'granted') {
+            permission = await Permissions.askAsync(Permissions.USER_FACING_NOTIFICATIONS);
+            if (permission.status !== 'granted') {
+                Alert.alert('Permission not granted to show for alert');
+            }
+        }
+        return permission;
+    }
+
+    async presentLocalNotification(date) {
+        await this.obtainNotificationPermission();
+        Notifications.scheduleNotificationAsync({
+            content: {
+                title: 'I am one, hasty notification',
+                body: 'Reservation for ' + date + 'requested',
+                data: 'Reservation for ' + date + 'requested',
+            },
+            trigger: null
+        });
+    }
+
     render() {
         return (
 

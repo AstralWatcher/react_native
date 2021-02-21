@@ -94,6 +94,8 @@ redux persist:
 
 For storage on device using expo-secure-store SecureStore
 
+For notifications and asking of permissions used: 'expo-notifications' 'expo-permissions'
+
 How to use mocked json server
 https://my-json-server.typicode.com/
 Dishes : https://my-json-server.typicode.com/AstralWatcher/react_native_json_server/dishes
