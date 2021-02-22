@@ -12,7 +12,7 @@ import ContactUs from './ContactUsComponent';
 import AboutUs from './AboutUsComponent';
 import Reservation from './ReservationComponent';
 import Favorites from './FavoriteComponent';
-import Login from './LoginComponent';
+import Authorization from './AuthorizationComponent';
 
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -89,10 +89,10 @@ function HomeStackScreen(props) {
     );
 }
 
-function LoginStackScreen() {
+function AuthorizationStackScreen() {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Login" component={Login} options={optionsMaker('Login Stack', { name: ICON_MENU })} />
+            <Stack.Screen name="Authorization" component={Authorization} options={optionsMaker('Authorization Stack', { name: ICON_MENU })} />
         </Stack.Navigator>
     );
 }
@@ -168,8 +168,8 @@ class Main extends Component {
         return (
             <NavigationContainer>
                 <Drawer.Navigator initialRouteName="HomeNavigator" drawerContent={CustomDrawerContentComponent} drawerStyle={{ backgroundColor: '#D1C4E9' }}>
-                    <Drawer.Screen name="LoginNavigator" component={LoginStackScreen}
-                        options={{ title: 'Login Drawer', drawerIcon: drawerIconMaker(ICON_LOGIN), unmountOnBlur:true }} />
+                    <Drawer.Screen name="AuthorizationNavigator" component={AuthorizationStackScreen}
+                        options={{ title: 'Authorization Drawer', drawerIcon: drawerIconMaker(ICON_LOGIN), unmountOnBlur:true }} />
                     <Drawer.Screen name="HomeNavigator" component={HomeStackScreen}
                         options={{ title: 'Home Drawer', drawerIcon: drawerIconMaker(ICON_HOME), unmountOnBlur:true }} />
                     <Drawer.Screen name="DishMenuNavigator" component={DishStackScreen}
