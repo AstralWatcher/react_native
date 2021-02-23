@@ -5,6 +5,7 @@ import * as SecureStore from 'expo-secure-store';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as ImagePicker from 'expo-image-picker';
+import * as ImageManipulator from 'expo-image-manipulator';
 import { baseUrl } from '../shared/baseUrl';
 
 const Tab = createBottomTabNavigator();
@@ -108,6 +109,18 @@ class RegisterTab extends Component {
             imageUrl: baseUrl + 'images/logo.png'
         }
     }
+
+    processImage = async (imageUri) => {
+        let processedImage = await ImageManipulator.manipulateAsync(
+            imageUri,
+            [
+                { resize: {width: 400}}
+            ], 
+            { format: 'png'}
+        );
+        this.setState({imageUri: processedImage.uri})
+        // TODO FINISH upload image to server
+    }
  
     handleRegister() {
         console.log(JSON.stringify(this.state));
@@ -133,7 +146,7 @@ class RegisterTab extends Component {
                 aspect: [4, 3]
             });
             if (!captureImage.cancelled) {
-                this.setState({ imageUrl: captureImage.uri });
+                this.processImage(captureImage.uri);
             }
         }
     }
