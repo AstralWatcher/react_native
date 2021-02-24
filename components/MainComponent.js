@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, View, Image, StyleSheet, ScrollView, SafeAreaView } from 'react-native';
+import { Text, View, Image, StyleSheet, ScrollView, SafeAreaView, ToastAndroid } from 'react-native';
+import NetInfo from "@react-native-community/netinfo";
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
@@ -150,17 +151,48 @@ const CustomDrawerContentComponent = (props) => {
 
 class Main extends Component {
 
+    netoInfo = null;
+
     componentDidMount(){
-        this.props.fetchDishes(),
-        this.props.fetchComments(),
-        this.props.fetchPromotions(),
-        this.props.fetchLeaders()
+        this.props.fetchDishes();
+        this.props.fetchComments();
+        this.props.fetchPromotions();
+        this.props.fetchLeaders();
+        
+        const unsubscribe = NetInfo.addEventListener(state => {
+            
+            switch (state.type) {
+                case 'none':
+                    ToastAndroid.show("You are offline", ToastAndroid.LONG);
+                    break;
+                case 'wifi':
+                    ToastAndroid.show("You are connected to Wifi", ToastAndroid.LONG);
+                    break;
+                case 'cellular':
+                    ToastAndroid.show("You are connected to cellular data", ToastAndroid.LONG);
+                    break;
+                case 'unknown':
+                    ToastAndroid.show("Your connection is unknown", ToastAndroid.LONG);
+                    break;
+                default:
+                    ToastAndroid.show("Your connection is unknown", ToastAndroid.LONG);
+                    break;
+            }
+        });
+        this.netoInfo = unsubscribe;
+    }
+
+    componentWillUnmount(){
+        if(this.netoInfo !== null){
+            this.netoInfo()
+        }
     }
 
     constructor(props) {
         super(props);
         this.state = {
-            selectedDish: null
+            selectedDish: null,
+            networkInfo: null
         }
     }
     // unmountOnBlur:true => Will unmount the comonent when drawer focus is changed
