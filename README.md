@@ -51,6 +51,14 @@ This project can be run from a web browser or the Expo client app. You may find 
 - Deploy the native app to the App store and Play store using this guide: [Deployment](https://docs.expo.io/distribution/app-stores/).
 - Deploy the website using this guide: [Web deployment](https://docs.expo.io/distribution/publishing-websites/).
 
+### Expo
+- npm i -g expo-cli
+- 1) expo signin -u <email> -p <pass>
+- 2) expo publish
+- 3) Go to website expo.io to check publishing
+
+- 4) For build run: expo build:android
+
 ## 📝 Notes
 
 - Learn more about [Universal React](https://docs.expo.io/).

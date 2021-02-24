@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "React Native ConFusion",
+    "description": "Restorant application developed, following Coursera Full Stack React specialization by Jogesh",
+    "slug": "ConFusion",
+    "privacy": "unlisted",
+    "platforms": [
+      "android"
+    ],
+    "githubUrl": "https://github.com/AstralWatcher/react_native",
+    "icon": "./icon.png",
+    "android": {
+      "package": "com.astralw.ConFusion"
+    }
+  }
+}
