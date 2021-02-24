@@ -5,6 +5,7 @@ import DatePicker from 'react-native-datepicker'; // TODO Fix Component https://
 import * as Animatable from 'react-native-animatable';
 import * as Notifications from 'expo-notifications';
 import * as Permissions from 'expo-permissions';
+import * as Calendar from 'expo-calendar';
 
 Notifications.setNotificationHandler({
     handleNotification: async () => {
@@ -16,11 +17,18 @@ Notifications.setNotificationHandler({
     },
 });
 
-if (Platform.OS === 'android') {
-    Notifications.setNotificationChannelAsync('default', {
-        importance: Notifications.AndroidImportance.DEFAULT,
-        enableVibrate: true
-    });
+
+const getDefaultCalendarSource = async () => {
+    //TODO TEST, Not tested on IOS, just coppied from docs
+    const calendars = await Calendar.getCalendarsAsync(Calendar.EntityTypes.EVENT);
+    const defaultCalendars = calendars.filter(each => each.source.name === 'ConFusion');
+    return defaultCalendars[0].source;
+}
+
+const getConFusionCalendarSource = async () => {
+    const calendars = await Calendar.getCalendarsAsync();
+    const calendar = calendars.find(({name})=> name === 'ConFusion');
+    return calendar;
 }
 
 class Reservation extends Component {
@@ -37,6 +45,51 @@ class Reservation extends Component {
     static navigationOptions = {
         title: "Reserve Table",
     }
+    
+    createCalendar = async () => {
+        let defaultCalendarSource = Platform.OS === 'ios' ? (await getDefaultCalendarSource()) : (await getConFusionCalendarSource());
+
+        const startDateTime = new Date(Date.parse(this.state.date));
+        const difference = 2*60*60*1000; // 2 hours
+        const endDateTime = new Date(startDateTime.getTime() + difference);
+
+        if(!defaultCalendarSource) {
+            const newValues = { isLocalAccount: true, name: 'ConFusion' }
+
+            defaultCalendarSource = await Calendar.createCalendarAsync({
+                title: 'ConFusion',
+                color: '#512DA8',
+                entityType: Calendar.EntityTypes.EVENT,
+                sourceId: newValues.id,
+                source: newValues,
+                name: 'ConFusion',
+                ownerAccount: 'personal',
+                isVisible: true,
+                isPrimary: false,
+                isSynced: false,
+                accessLevel: Calendar.CalendarAccessLevel.OWNER,
+                });
+        }
+        if(defaultCalendarSource){
+            const event = await Calendar.createEventAsync(
+                defaultCalendarSource.id,
+                {
+                    title: 'Con Fusion Table Reservation',
+                    startDate: startDateTime,
+                    endDate: endDateTime,
+                    timeZone: 'Asia/Hong_Kong',
+                    location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong',
+                },
+            );
+        }
+    }
+
+    obtainCalendarPermission = async () => {
+        const calendarPermission = await Calendar.requestCalendarPermissionsAsync();
+        if (calendarPermission.status === 'granted') {
+            this.createCalendar();
+        }
+    }
 
     handleReservation() {
         var message = `Number of guests:${this.state.guests}\nSmoking:${this.state.smoking}\nDate and time:${JSON.stringify(this.state.date)}`;
@@ -52,6 +105,7 @@ class Reservation extends Component {
                     style: 'default',
                     onPress: () => {
                         this.presentLocalNotification(this.state.date);
+                        this.obtainCalendarPermission();
                         this.resetForm();
                     }
                 }
@@ -84,7 +138,10 @@ class Reservation extends Component {
     }
 
     async presentLocalNotification(date) {
-        await this.obtainNotificationPermission();
+        if(!date){
+            return;
+        }
+        var notification = await this.obtainNotificationPermission();
         Notifications.scheduleNotificationAsync({
             content: {
                 title: 'I am one, hasty notification',
@@ -92,7 +149,7 @@ class Reservation extends Component {
                 data: 'Reservation for ' + date + 'requested',
             },
             trigger: null
-        });
+        })
     }
 
     render() {

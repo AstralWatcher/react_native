@@ -116,9 +116,9 @@ class RegisterTab extends Component {
             [
                 { resize: {width: 400}}
             ], 
-            { format: 'png'}
+            { format: ImageManipulator.SaveFormat.PNG}
         );
-        this.setState({imageUri: processedImage.uri})
+        this.setState({imageUrl: processedImage.uri})
         // TODO FINISH upload image to server
     }
  
@@ -138,8 +138,7 @@ class RegisterTab extends Component {
 
     getImageFromCamera = async () => {
         const cameraPermission = await ImagePicker.requestCameraPermissionsAsync();
-        const libraryPermission = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (cameraPermission.status === 'granted' && libraryPermission.status === 'granted') {
+        if (cameraPermission.status === 'granted') {
             let captureImage = await ImagePicker.launchCameraAsync({
                 mediaTypes: ImagePicker.MediaTypeOptions.Images,
                 allowsEditing: true,
@@ -149,6 +148,19 @@ class RegisterTab extends Component {
                 this.processImage(captureImage.uri);
             }
         }
+    }
+
+    getImageFromGallary = async () => {
+        const libraryPermission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if(libraryPermission.status === 'granted'){
+            let galeryImage = await ImagePicker.launchImageLibraryAsync({
+                mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            });
+            if(!galeryImage.cancelled) {
+                this.processImage(galeryImage.uri);
+            }
+        }
+        
     }
 
     render() {
@@ -164,6 +176,10 @@ class RegisterTab extends Component {
                         <Button
                             title="Camera"
                             onPress={() => this.getImageFromCamera()}
+                         />
+                        <Button
+                            title="Gallery"
+                            onPress={() => this.getImageFromGallary()}
                          />
                     </View>
                     <Input placeholder="Username"
@@ -269,7 +285,8 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         margin: 10,
-        alignItems:'center'
+        alignItems:'center',
+        justifyContent:'space-around',
     },
     image: {
         marginRight: 10,
